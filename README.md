@@ -26,7 +26,6 @@ The **Hawkes-Prospect Recovery Engine** resolves these inefficiencies through a 
 | **03. Mathematical Analytics** | ![Analytics Dashboard](assets/3.png) | Interactive Hawkes hazard rate decay curves and Prospect framing discount distributions. |
 | **04. Audit Ledger** | ![Audit Ledger](assets/4.png) | Time-stamped, verifiable audit log tracking engine actions, policy blocks, and rail swaps. |
 
-> **Adding Screenshots**: Create an `assets/` folder in your repository root, place your four image files inside named `01-recovery-pipeline.png`, `02-p2p-sandbox.png`, `03-mathematical-analytics.png`, and `04-audit-ledger.png`, then push to GitHub.
 
 ---
 
