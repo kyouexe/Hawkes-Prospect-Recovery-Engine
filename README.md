@@ -1,29 +1,35 @@
-# Hawkes-Prospect Recovery Engine
+# ⚡ Razorpay Hawkes-Prospect Recovery Engine
 
-> **Razorpay Internship Submission** — Track 3: AI Revenue Recovery
-
-A self-healing payment recovery system that combines **Hawkes point-process scheduling**
-with **Prospect Theory framing** to optimally time and phrase recovery outreach for
-failed payments.
+> **Razorpay Internship Submission** — *Track 3: AI Revenue Recovery*
+> An autonomous, self-healing payment recovery system combining **Hawkes Point-Process hazard modeling** with **Prospect Theory behavioral framing** to optimize payment retry timing, channel selection, and customer messaging.
 
 ---
 
-## Problem Statement
+## 📌 Executive Summary
 
-Payment failures cost merchants revenue and create poor customer experiences. Current
-retry logic uses fixed intervals that ignore:
+Traditional payment retry systems suffer from three fundamental flaws:
+1. **Blind Retry Storms**: Retrying failed transactions at static intervals ignores bank outage clusters, causing cascade failures and unnecessary processing fees.
+2. **One-Size-Fits-All Outreach**: Generic notification templates fail to account for behavioral loss aversion versus gain-seeking motives across different customer segments.
+3. **Futile Retries on Dead Instruments**: Attempting re-debits on cancelled mandates or expired cards degrades customer trust and yields 0% recovery.
 
-1. **Temporal clustering** — bank outages cause correlated failures; retrying during an
-   outage wastes attempts.
-2. **Behavioural framing** — a SaaS subscriber about to lose access responds to
-   different messaging than an e-commerce shopper who never received the item.
-3. **Instrument death** — retrying an expired card or cancelled mandate is futile.
-
-This engine addresses all three with mathematically grounded, auditable decisions.
+The **Hawkes-Prospect Recovery Engine** resolves these inefficiencies through a closed-loop, mathematically optimized pipeline. It dynamically schedules retries based on real-time bank switch health, crafts psychological nudges tailored to merchant verticals, automatically swaps dead payment instruments, and enforces strict compliance guardrails via an immutable audit trail.
 
 ---
 
-## Architecture
+## 📸 System Interface & Showcase
+
+| View | Screenshot | Description |
+| :--- | :---: | :--- |
+| **01. Recovery Pipeline** | ![Live Recovery Queue](assets/1.png) | Real-time failure event queue, batch orchestration trigger, and live WhatsApp outreach preview. |
+| **02. P2P Intent Sandbox** | ![P2P Sandbox](assets/2.png) | Deterministic natural language extraction testing grounds for Promise-to-Pay customer messages. |
+| **03. Mathematical Analytics** | ![Analytics Dashboard](assets/3.png) | Interactive Hawkes hazard rate decay curves and Prospect framing discount distributions. |
+| **04. Audit Ledger** | ![Audit Ledger](assets/4.png) | Time-stamped, verifiable audit log tracking engine actions, policy blocks, and rail swaps. |
+
+> **Adding Screenshots**: Create an `assets/` folder in your repository root, place your four image files inside named `01-recovery-pipeline.png`, `02-p2p-sandbox.png`, `03-mathematical-analytics.png`, and `04-audit-ledger.png`, then push to GitHub.
+
+---
+
+## 🏗 System Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -78,55 +84,51 @@ This engine addresses all three with mathematically grounded, auditable decision
 
 ---
 
-## How It Works
+## 🔬 Core Mathematical & Algorithmic Modules
 
-### 1. Hawkes Self-Exciting Process (WHEN to retry)
+### 1. Hawkes Self-Exciting Point Process (Optimal Retry Timing)
+Payment failures clustered around specific bank switches (e.g., HDFC, SBI) exhibit self-exciting characteristics. The instantaneous hazard rate $h(t)$ determines the probability of success when scheduling a retry at time $t$:
 
-The hazard rate models temporal clustering of failures:
+$$h(t) = \mu_0 + \sum_{t_i < t} \alpha \cdot e^{-\beta (t - t_i)} + \gamma \cdot S_{\text{payroll}}(t)$$
 
-```
-h(t) = μ₀ + α · exp(-β · (t - t₀)) + γ · payroll_score(t)
-```
+* **$\mu_0$ (Baseline Hazard)**: Standard baseline probability of payment authorization ($0.30$).
+* **$\alpha$ (Excitation Amplitude)**: Magnitude of spike in failure risk when recent switch errors occur ($0.80$).
+* **$\beta$ (Exponential Decay Rate)**: Speed at which bank outage noise dissipates ($0.50$).
+* **$\gamma \cdot S_{\text{payroll}}(t)$ (Payroll Cycle Weight)**: Modulate hazard based on liquidity windows. Returns $0.85\text{--}0.90$ during monthly salary windows (28th to 5th) and drops to $0.15$ mid-month.
 
-| Parameter | Meaning | Default |
-|-----------|---------|---------|
-| μ₀ | Baseline hazard rate | 0.3 |
-| α | Excitation amplitude (recent cluster impact) | 0.8 |
-| β | Decay rate (how fast cluster effect fades) | 0.5 |
-| γ | Payroll cycle weight | 0.4 |
+*The engine defers retries until $h(t) < 0.50$, avoiding retries during elevated failure clusters.*
 
-**Payroll score** returns 0.85–0.90 for dates 28th–5th (salary credit window)
-and 0.15 for mid-month. This makes the engine prefer retries when customers
-are most likely to have funds.
+### 2. Prospect Theory Framing (Behavioral Outreach)
+Utilizes Kahneman & Tversky's Prospect Theory value function to maximize recovery conversion based on merchant category:
 
-### 2. Prospect Theory (HOW to frame the offer)
+$$V(x) = \begin{cases} x^\alpha & \text{if } x \ge 0 \quad \text{(Gain Frame)} \\ -\lambda (-x)^\beta & \text{if } x < 0 \quad \text{(Loss Frame)} \end{cases}$$
 
-| Customer Type | Frame | Psychology |
-|--------------|-------|------------|
-| SaaS / B2B Invoice | **Loss frame** | "Your access will be suspended in 48h" — leverages loss aversion |
-| E-commerce | **Gain frame** | "Save ₹500 with EMI" — leverages aspirational gain |
+* **Loss Frame ($\lambda = 2.25$)**: Applied to **SaaS & B2B Subscriptions**. Emphasizes loss aversion: *"Your account access will be suspended in 48 hours."*
+* **Gain Frame ($\alpha = 0.88$)**: Applied to **E-Commerce & Retail**. Emphasizes positive utility: *"Complete payment now to secure your discount or switch to zero-cost EMI."*
 
-### 3. Promise-to-Pay Parser
+### 3. Deterministic P2P (Promise-to-Pay) Intent Parser
+A lightweight, zero-LLM regex parser that extracts binding future payment dates from unstructured customer replies without external API calls:
+* `"I will pay on Friday"` $\rightarrow$ Next Friday timestamp ($\text{Confidence} = 85\%$)
+* `"Will transfer tomorrow morning"` $\rightarrow$ Next day 09:00 AM ($\text{Confidence} = 95\%$)
+* `"Paying on 15/09"` $\rightarrow$ Exact calendar date ($\text{Confidence} = 90\%$)
 
-A rule-based (no LLM) regex engine that extracts dates from messages like:
-- "I will pay on Friday" → next Friday, confidence 85%
-- "Will transfer tomorrow" → tomorrow, confidence 95%
-- "By the 5th" → 5th of current/next month, confidence 80%
+### 4. Policy Guardrails & Compliance System
+Every automated decision passes through a deterministic policy layer before execution:
+* **Discount Limit**: Maximum incentive capped at $10\%$.
+* **Contact Frequency**: Maximum $2$ customer notifications per $24$-hour rolling window.
+* **Dead Instrument Enforcement**: Error codes `EXPIRED_CARD` or `MANDATE_CANCELLED` automatically halt re-debit attempts and route to Rail Swap.
 
-### 4. Guardrails
 
-| Rule | Limit | Action on Violation |
-|------|-------|-------------------|
-| Discount cap | ≤ 10% | Block and escalate |
-| Contact cap | ≤ 2 per 24h | Block further contact |
-| Dead instrument | EXPIRED_CARD, MANDATE_CANCELLED | Skip retry → rail-swap |
+---
 
-### 5. Rail Swap
+## 🛠 Tech Stack
 
-Dead instruments are automatically offered an alternate payment rail:
-- CARD / RUPAY → UPI AutoPay
-- UPI AutoPay → eNACH
-- eNACH → UPI AutoPay
+| Domain | Tool / Library | Purpose |
+| :--- | :--- | :--- |
+| **Language** | Python 3.10+ | Core business logic & typing |
+| **Frontend UI** | Streamlit | Responsive dashboard & live outreach preview |
+| **Visualization** | Plotly Express & Graph Objects | Hazard curves, scatter matrices, and interactive charts |
+| **Data Engine** | SQLite (WAL Mode) | Concurrency-safe, zero-config local persistence |
 
 ---
 
@@ -144,37 +146,33 @@ The app uses a local SQLite database (`recovery.db`) that is auto-created on fir
 run with 20 seed failure events. Click **"Regenerate Seed Data"** in the sidebar
 to reset.
 
----
 
-## Tech Stack
-
-- **Python 3.10+** with type hints
-- **Streamlit** — interactive dashboard
-- **Plotly** — funnel chart, hazard decay curves, framing scatter
-- **SQLite** (WAL mode) — lightweight, zero-config persistence
-- **No external APIs** — fully offline, mocked Razorpay responses
-
----
 
 ## Folder Structure
 
 ```
 razorpay-recovery-engine/
-├── app.py              # Streamlit UI
-├── requirements.txt    # Dependencies
+├── app.py                   # Streamlit interactive dashboard UI
+├── requirements.txt         # Project dependencies
+├── recovery.db              # Auto-generated SQLite database (WAL mode)
+├── assets/                  # Dashboard screenshots for documentation
+│   ├── 01-recovery-pipeline.png
+│   ├── 02-p2p-sandbox.png
+│   ├── 03-mathematical-analytics.png
+│   └── 04-audit-ledger.png
 ├── data/
-│   ├── schema.py       # SQL table definitions
-│   ├── seed_data.py    # 20 deterministic test events
-│   └── database.py     # SQLite CRUD layer
+│   ├── schema.py            # SQLite database schema definitions
+│   ├── seed_data.py         # Deterministic seed data generator
+│   └── database.py          # Database access layer
 ├── engine/
-│   ├── hawkes.py       # Hawkes point-process scheduler
-│   ├── prospect.py     # Prospect Theory framer
-│   ├── p2p_parser.py   # Promise-to-pay regex parser
-│   ├── guardrails.py   # Discount / contact / instrument guards
-│   └── pipeline.py     # Orchestration pipeline
+│   ├── hawkes.py            # Hawkes Point-Process scheduling engine
+│   ├── prospect.py          # Prospect Theory behavioral framing engine
+│   ├── p2p_parser.py        # Promise-to-Pay regex parser
+│   ├── guardrails.py        # Policy guardrails & compliance rules
+│   └── pipeline.py          # End-to-end recovery orchestrator
 ├── services/
-│   ├── razorpay_mock.py # Mocked payment link APIs
-│   └── rail_swap.py     # Dead-instrument rail swap
+│   ├── razorpay_mock.py     # Mocked payment link and EMI generation APIs
+│   └── rail_swap.py         # Automated payment rail fallback service
 └── utils/
-    └── audit.py         # Audit log wrapper
+    └── audit.py             # Time-stamped audit logging utility
 ```
