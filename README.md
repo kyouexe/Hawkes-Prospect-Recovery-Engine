@@ -1,6 +1,6 @@
 # Hawkes-Prospect Recovery Engine
 
-> **Razorpay Internship Submission** — Track: Failure Recovery, Guardrails & Audit Logging
+> **Razorpay Internship Submission** — Track 3: AI Revenue Recovery
 
 A self-healing payment recovery system that combines **Hawkes point-process scheduling**
 with **Prospect Theory framing** to optimally time and phrase recovery outreach for
