@@ -1,6 +1,7 @@
 # ⚡ Razorpay Hawkes-Prospect Recovery Engine
 
 > **Razorpay Internship Submission** — *Track 3: AI Revenue Recovery*
+
 > An autonomous, self-healing payment recovery system combining **Hawkes Point-Process hazard modeling** with **Prospect Theory behavioral framing** to optimize payment retry timing, channel selection, and customer messaging.
 
 ---
