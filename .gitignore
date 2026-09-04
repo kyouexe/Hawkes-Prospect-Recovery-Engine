@@ -1,0 +1,16 @@
+# Virtual Environments
+.venv/
+venv/
+
+# Python Bytecode & Caches
+__pycache__/
+*.pyc
+*.pyo
+
+# Local Database
+recovery.db
+
+# IDE & OS Settings
+.vscode/
+.idea/
+.DS_Store
