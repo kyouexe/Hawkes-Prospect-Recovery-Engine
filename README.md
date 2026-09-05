@@ -16,6 +16,11 @@ Traditional payment retry systems suffer from three fundamental flaws:
 The **Hawkes-Prospect Recovery Engine** resolves these inefficiencies through a closed-loop, mathematically optimized pipeline. It dynamically schedules retries based on real-time bank switch health, crafts psychological nudges tailored to merchant verticals, automatically swaps dead payment instruments, and enforces strict compliance guardrails via an immutable audit trail.
 
 ---
+## 🎥 Video Walkthrough
+
+[[Razorpay Recovery Engine Demo]](https://www.youtube.com/watch?v=WkYYQMz6X8Q)
+
+*> 💡 **Click the image above to watch the full system demonstration on YouTube.***
 
 ## 📸 System Interface & Showcase
 
