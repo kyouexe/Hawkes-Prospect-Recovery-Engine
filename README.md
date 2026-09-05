@@ -20,7 +20,7 @@ The **Hawkes-Prospect Recovery Engine** resolves these inefficiencies through a 
 
 [[Razorpay Recovery Engine Demo]](https://www.youtube.com/watch?v=WkYYQMz6X8Q)
 
-*> 💡 **Click the image above to watch the full system demonstration on YouTube.***
+*> 💡 **Click above to watch the full system demonstration on YouTube.***
 
 ## 📸 System Interface & Showcase
 
